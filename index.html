@@ -96,6 +96,8 @@ h1 span{color:var(--lid)}
 .day.out{visibility:hidden}
 .list{list-style:none;margin:0;padding:.6rem 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:.35rem}
 .list li{display:grid;grid-template-columns:3.4rem 1fr;gap:.5rem;font-size:.83rem;line-height:1.35;align-items:start}
+.list li.multi{grid-template-columns:1fr}
+.list li.multi .dt{font-size:.83rem;color:var(--ink);font-weight:600}
 .list .dt{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.78rem;padding-top:.05rem}
 .list .nm{display:flex;gap:.4rem;align-items:baseline;min-width:0}
 .list .nm i{flex:none;width:.55rem;height:.55rem;border-radius:2px;background:var(--c);transform:translateY(-.05rem)}
@@ -122,6 +124,7 @@ h1 span{color:var(--lid)}
     <div class="rule"><b>Deeper + Deeper Joy</b><span>Juntos na 1ª e na 3ª sexta, de fevereiro a novembro</span></div>
     <div class="rule"><b>Semana de PG</b><span>Segunda a sábado da 2ª e da 4ª semana. Retorno em 18/jan, férias em dezembro</span></div>
     <div class="rule"><b>Sala de Oração Deeper</b><span>Terça às 22h, nas semanas de PG</span></div>
+    <div class="rule"><b>Regra de prioridade</b><span>Em semana de conferência, o PG e o Deeper daquela semana cedem</span></div>
   </section>
 
   <div class="stats" id="stats"></div>
@@ -412,9 +415,27 @@ function render(){
         ...evs.map(e=>({d:e[1],dt:e[1]===e[2]?`${e[1]}/${String(m).padStart(2,'0')}`:`${e[1]} a ${e[2]}`,t:e[3],c:e[4],sug:e[6]})),
         ...fm.map(f=>({d:f[1]+.5,dt:`${f[1]}/${String(m).padStart(2,'0')}`,t:f[2],c:'fer'}))
       ].sort((a,b)=>a.d-b.d);
+      // agrupa eventos de um dia que se repetem no mês (ex.: Verão Oceano)
+      const grouped=[];
       rows.forEach(r=>{
+        const g = grouped.find(x=>x.t===r.t && x.c===r.c && x.days);
+        const single = !r.dt.includes(' a ');
+        // Line Ups no mesmo dia viram uma linha só
+        const lu = r.t.startsWith('Line Up ') && grouped.find(x=>x.t.startsWith('Line Up ') && x.dt===r.dt);
+        if(lu){ lu.t = 'Line Up '+lu.t.slice(8)+' e '+r.t.slice(8); (lu.cs ||= [lu.c]).push(r.c); lu.sug = lu.sug && r.sug; return; }
+        if(g && single){ g.days.push(Math.floor(r.d)); return; }
+        grouped.push(single ? {...r, days:[Math.floor(r.d)]} : r);
+      });
+      grouped.forEach(r=>{
         const li=document.createElement('li');
-        li.innerHTML=`<span class="dt">${r.dt}</span><span class="nm" style="--c:${CAT[r.c].c}"><i></i><span>${r.c==='fer'?'Feriado: ':''}${r.t}${r.sug?'<span class="tag">sugerida</span>':''}</span></span>`;
+        if(r.days && r.days.length>1){
+          const ds = r.days.slice(0,-1).join(', ')+' e '+r.days[r.days.length-1];
+          li.className='multi';
+          li.innerHTML=`<span class="nm" style="--c:${CAT[r.c].c}"><i></i><span><span class="dt">${ds}</span> - ${r.t.replace(' - ',', ')}${r.sug?'<span class="tag">sugerida</span>':''}</span></span>`;
+          ul.append(li); return;
+        }
+        const chips = (r.cs||[r.c]).map(c=>`<i style="background:${CAT[c].c}"></i>`).join('');
+        li.innerHTML=`<span class="dt">${r.dt}</span><span class="nm" style="--c:${CAT[r.c].c}">${chips}<span>${r.c==='fer'?'Feriado: ':''}${r.t}${r.sug?'<span class="tag">sugerida</span>':''}</span></span>`;
         ul.append(li);
       });
       box.append(ul);
