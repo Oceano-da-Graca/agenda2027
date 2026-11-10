@@ -303,7 +303,7 @@ for(let m=1;m<=11;m++){
     if(m===1 && fd===8) return;         // PGs voltam em 18/jan
     const mon = new Date(2027,m-1,fd-4);
     let from=0, to=5, prayOk=true, note='Segunda a sábado';
-    if(m===2 && fd===12) return;       // Carnaval: sem PG, só o Dia de Comunhão dos PGs em 13/fev
+    if(m===2 && fd===12){ pray[key(2,12)]=1; add(2,12,'Sala de Oração Deeper','sdee','Sexta às 22h. Semana do Carnaval, sem PG.'); return; }  // Carnaval: sem PG
     for(let i=from;i<=to;i++){
       const x = new Date(mon); x.setDate(mon.getDate()+i);
       pgWeek[key(x.getMonth()+1,x.getDate())]=1;
