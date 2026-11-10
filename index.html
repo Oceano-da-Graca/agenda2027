@@ -57,11 +57,35 @@ h1 span{color:var(--lid)}
 .chip:focus-visible,.day:focus-visible{outline:2px solid var(--lid);outline-offset:2px}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 19rem;gap:1.5rem;align-items:start}
 @media (max-width:60rem){.layout{grid-template-columns:minmax(0,1fr)}}
-.detail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 1rem);max-height:calc(100vh - 2rem);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.1rem;min-width:0}
+.detail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 3.4rem);max-height:calc(100vh - 4.4rem);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.1rem;min-width:0}
 @media (max-width:60rem){
   .detail{position:fixed;top:auto;left:0;right:0;bottom:0;z-index:20;max-height:38vh;border-radius:var(--r) var(--r) 0 0;border-bottom:0;box-shadow:0 -6px 20px rgba(0,0,0,.18);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:calc(1rem + env(safe-area-inset-bottom,0px))}
-  .wrap{--sheet:42vh}
+  .detail{display:none}
+  .detail.open{display:block}
+  .wrap.sheet{--sheet:42vh}
+  .detail .close{display:inline-block}
 }
+.detail .close{display:none;position:absolute;top:.7rem;right:max(16px,env(safe-area-inset-right,0px));font:inherit;font-size:.8rem;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:.2rem .7rem;cursor:pointer}
+.aud{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.aud .lbl{flex-basis:100%;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.seg{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:.35rem .85rem;cursor:pointer}
+.seg[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg:focus-visible,.nav button:focus-visible,.list li:focus-visible,.detail .close:focus-visible{outline:2px solid var(--lid);outline-offset:2px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--bg);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:2px;padding-block:.4rem;border-bottom:1px solid var(--line)}
+.nav button{font:inherit;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:transparent;border:0;border-radius:6px;padding:.4rem 0;cursor:pointer;min-width:0}
+.nav button:hover{background:var(--soft);color:var(--ink)}
+@media (max-width:30rem){.nav button{font-size:.62rem;letter-spacing:0}}
+.month{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 3.2rem)}
+.list li[role="button"]{cursor:pointer;border-radius:6px}
+.list li[role="button"]:hover{background:var(--soft)}
+.list li.on{background:var(--soft);box-shadow:inset 2px 0 0 var(--ink)}
+.list .sep{display:block;margin-top:.3rem;padding-top:.45rem;border-top:1px dashed var(--line);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.list li.rit{grid-template-columns:1fr}
+.list li.rit .dt{font-size:.83rem;color:var(--ink);font-weight:600}
+.list .nm i.ring{background:transparent;border:2px solid var(--dee);border-radius:50%;width:.65rem;height:.65rem}
+.list .nm i.dot{border-radius:50%}
+.list .nm i.sq{outline:1px solid var(--line)}
 .detail h2{margin:0;font-family:var(--display);font-size:1.25rem;font-weight:600}
 .detail .dow{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}
 .detail ul{list-style:none;margin:.8rem 0 0;padding:0;display:flex;flex-direction:column;gap:.55rem}
@@ -109,33 +133,102 @@ h1 span{color:var(--lid)}
 .notes h2{margin:0 0 .5rem;font-family:var(--display);font-size:1.15rem;font-weight:600}
 .notes ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.35rem;font-size:.9rem}
 @media (prefers-reduced-motion:no-preference){.day{transition:transform .12s}.day:hover{transform:scale(1.08)}}
+/* ---- Identidade: cabeçalho oceano, faixa contínua de PG, cartões mais limpos ---- */
+:root{ --hero:#0a2540; --hero-ink:#eef6fb; --hero-muted:#a9c0d3; --accent:#3fd0e0; --hero-line:rgba(255,255,255,.16); --hero-card:rgba(255,255,255,.07); --glow:rgba(63,208,224,.30) }
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){ --hero:#0e2b47; --hero-ink:#eef6fb; --hero-muted:#a9c0d3; --accent:#5fe0ee; --hero-line:rgba(255,255,255,.14); --hero-card:rgba(255,255,255,.06); --glow:rgba(95,224,238,.22) }}
+:root[data-theme="dark"]{ --hero:#0e2b47; --hero-ink:#eef6fb; --hero-muted:#a9c0d3; --accent:#5fe0ee; --hero-line:rgba(255,255,255,.14); --hero-card:rgba(255,255,255,.06); --glow:rgba(95,224,238,.22) }
+.wrap{gap:1.4rem}
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:clamp(1.25rem,4vw,2.6rem);display:flex;flex-direction:column;gap:1.4rem;color:var(--hero-ink);
+  background:radial-gradient(90% 120% at 100% 0%,var(--glow),transparent 60%),radial-gradient(70% 90% at 0% 100%,var(--glow),transparent 65%),var(--hero)}
+.hero .kick{color:var(--hero-muted)}
+.hero h1{color:var(--hero-ink)}
+.hero h1 span{color:var(--accent)}
+.hero .lede{color:var(--hero-muted)}
+.hero .lede b{color:var(--hero-ink)}
+.hero .rule{background:var(--hero-card);border-color:var(--hero-line);padding:.7rem .9rem}
+.hero .rule b{color:var(--hero-ink)}
+.hero .rule span{color:var(--hero-muted)}
+.hero .stats{color:var(--hero-muted);padding-top:1rem;border-top:1px solid var(--hero-line);gap:.4rem 2rem}
+.hero .stats b{color:var(--accent)}
+.aud .lbl{flex-basis:auto;margin-right:.4rem}
+@media (max-width:40rem){.aud .lbl{flex-basis:100%}.hero .stats{display:grid;grid-template-columns:1fr 1fr}}
+.seg{padding:.4rem .95rem}
+.nav{gap:4px;padding-block:.5rem}
+.nav button{padding:.42rem 0;border-radius:999px}
+.nav button[aria-current="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+.month{border-radius:16px;padding:1.1rem 1.1rem 1rem;gap:.8rem}
+.month h3{font-size:1.3rem;letter-spacing:-.01em}
+.grid{gap:3px 0}
+.wd{font-weight:600}
+.day{border-radius:8px;font-size:.82rem}
+.day.pgw{border-radius:0}
+.day.pgw.pgs{border-radius:8px 0 0 8px}
+.day.pgw.pge{border-radius:0 8px 8px 0}
+.day.pgw.pgs.pge{border-radius:8px}
+.day .fill{inset:3px;border-radius:7px;overflow:hidden}
+.day.sel{box-shadow:inset 0 0 0 2px var(--ink);border-radius:8px}
+@media (prefers-reduced-motion:no-preference){.day{transition:box-shadow .12s}.day:hover{transform:none}}
+.day:hover{box-shadow:inset 0 0 0 1.5px var(--muted)}
+.day.sel:hover{box-shadow:inset 0 0 0 2px var(--ink)}
+.list{gap:.2rem}
+.list li{padding:.18rem .35rem;margin-inline:-.35rem}
+.detail{border-radius:16px}
+.key,.notes{border-radius:16px}
+.tools{display:flex;justify-content:flex-end;margin-top:-.6rem}
+.tools .seg{font-size:.8rem;padding:.3rem .8rem;color:var(--muted)}
+.tg{font:inherit;font-size:.82rem;display:flex;align-items:center;justify-content:center;gap:.45rem;width:100%;border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:10px;padding:.5rem .7rem;cursor:pointer}
+.tg b{font-variant-numeric:tabular-nums;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:0 .45rem;font-size:.75rem}
+.tg i{width:.45rem;height:.45rem;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-.1rem);margin-left:.15rem}
+.tg[aria-expanded="true"] i{transform:rotate(-135deg) translateY(-.1rem)}
+.tg:hover{border-color:var(--muted)}
+.tg:focus-visible,summary:focus-visible .btn{outline:2px solid var(--lid);outline-offset:2px}
+.more{display:flex;flex-direction:column;gap:.7rem}
+.more[hidden]{display:none}
+.more .list{border-top:0;padding-top:0}
+details.key{display:block;background:transparent;border:0;padding:0}
+details.key summary{list-style:none;cursor:pointer;display:flex;justify-content:center}
+details.key summary::-webkit-details-marker{display:none}
+details.key .btn{display:inline-flex;align-items:center;gap:.5rem;font-size:.9rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:.55rem 1.2rem}
+details.key .btn::after{content:"";width:.45rem;height:.45rem;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-.1rem)}
+details.key[open] .btn::after{transform:rotate(-135deg) translateY(-.1rem)}
+details.key .key-body{margin-top:.9rem;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.8rem}
+.hero .rule span strong{color:var(--hero-ink);font-weight:600}
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <header>
+  <header class="hero">
+    <div>
     <p class="kick">Igreja Oceano da Graça · Proposta para análise</p>
     <h1>Agenda <span>2027</span></h1>
-    <p class="lede">Rascunho do ano com as regras novas do Deeper e do PG, os encontros de mulheres e homens, os cultos de casais, os treinamentos de voluntários e a Santa Ceia. Toque em um dia para ver o que acontece nele. Datas marcadas como <b>sugerida</b> ainda dependem de confirmação.</p>
-  </header>
+    <p class="lede">Rascunho do ano com as regras novas do Deeper e do PG, os encontros de mulheres e homens, os cultos de casais, os treinamentos de voluntários e a Santa Ceia. Escolha um público para ver só o que interessa a ele e toque em um dia, ou em um evento da lista, para ver os detalhes. Datas marcadas como <b>sugerida</b> ainda dependem de confirmação.</p>
+    </div>
 
   <section class="rules" aria-label="Regras do ano">
     <div class="rule"><b>Deeper + Deeper Joy</b><span>Juntos na 1ª e na 3ª sexta, de fevereiro a novembro</span></div>
     <div class="rule"><b>Semana de PG</b><span>Segunda a sábado da 2ª e da 4ª semana. Retorno em 18/jan, férias em dezembro</span></div>
-    <div class="rule"><b>Sala de Oração Deeper</b><span>Sexta às 22h, nas semanas de PG</span></div>
+    <div class="rule"><b>Salas de Oração</b><span><strong>Deeper:</strong> sexta às 22h, nas semanas de PG.<br><strong>Mulheres:</strong> duas segundas por mês, fora das semanas de PG.</span></div>
   </section>
 
   <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="aud" role="group" aria-label="Ver agenda por público" id="aud"><span class="lbl">Ver agenda de</span></div>
+
+  <nav class="nav" aria-label="Ir para o mês" id="nav"></nav>
+
+  <div class="tools"><button type="button" class="seg" id="tg-all" aria-pressed="false">Abrir todos os meses</button></div>
 
   <div class="layout">
     <div class="months" id="months"></div>
     <aside class="detail" id="detail" aria-live="polite"></aside>
   </div>
 
-  <section class="key" aria-label="Legenda e filtros">
-    <h2>Legenda</h2>
-    <p class="key-note">Toque numa cor para esconder ou mostrar aquele tipo de evento.</p>
+  <details class="key" id="key">
+    <summary><span class="btn">Legenda e filtros por evento</span></summary>
+    <div class="key-body">
+    <p class="key-note">Toque numa cor para esconder ou mostrar só aquele tipo de evento. Para filtrar por público, use os botões no alto da página.</p>
     <div class="bar" role="group" aria-label="Filtrar categorias" id="filters"></div>
 
     <div class="legend" aria-label="Legenda">
@@ -146,15 +239,9 @@ h1 span{color:var(--lid)}
     <span><i class="lg" style="background:linear-gradient(225deg,var(--fer) 0 30%,transparent 30%)"></i>Feriado</span>
     <span><i class="lg" style="background:linear-gradient(var(--rec),var(--rec)) 50% 3px/40% 3px no-repeat"></i>Culto da Família (dom, 10h e 18h30), Quarta da Graça (qua, 20h), Manhã da Graça (sáb, 9h)</span>
     </div>
-  </section>
+    </div>
+  </details>
 
-  <section class="notes">
-    <h2>Fora deste rascunho</h2>
-    <ul>
-      <li>Eventos do Campus Águas Claras e ensaios de produção.</li>
-      <li>Corpus Christi (27/mai) não é feriado nacional. No DF, depende do decreto do GDF de 2027.</li>
-    </ul>
-  </section>
 </div>
 
 <script>
@@ -347,7 +434,7 @@ const count = c=>EV.filter(e=>e[4]===c).length;
 const mulEnc = EV.filter(e=>e[3].startsWith('Encontro de Mulheres')).length;
 const homEnc = EV.filter(e=>e[3].startsWith('Encontro de Homens')).length;
 document.getElementById('stats').innerHTML =
-  `<span><b>${mulEnc}</b>encontros de mulheres</span><span><b>${homEnc}</b>encontros de homens</span><span><b>${Object.keys(deeper).length}</b>noites de Deeper</span><span><b>${Object.keys(pray).length}</b>noites de Sala de Oração Deeper</span>`;
+  `<span><b>${mulEnc}</b>encontros de mulheres</span><span><b>${homEnc}</b>encontros de homens</span><span><b>${Object.keys(deeper).length}</b>noites de Deeper</span><span><b>${Object.keys(pray).length}</b>noites de Sala de Oração Deeper</span><span><b>${Object.keys(mulPray).length}</b>noites de Sala de Oração Mulheres</span>`;
 
 // Filtros
 const fEl = document.getElementById('filters');
@@ -363,11 +450,65 @@ Object.entries(CAT).forEach(([k,v])=>{
 let sel = key(1,18);
 const mEl = document.getElementById('months');
 const dEl = document.getElementById('detail');
+const wrapEl = document.querySelector('.wrap');
+let sheetOpen = false;
+const openMonths = new Set();
+const allBtn = document.getElementById('tg-all');
+function syncAll(){ const all = openMonths.size===12; allBtn.textContent = all ? 'Fechar todos os meses' : 'Abrir todos os meses'; allBtn.setAttribute('aria-pressed', all?'true':'false'); }
+allBtn.addEventListener('click',()=>{ if(openMonths.size===12) openMonths.clear(); else for(let i=1;i<=12;i++) openMonths.add(i); syncAll(); render(); });
 
+// Filtro por público: cada grupo liga só os tipos de evento daquele público
+const GROUPS = [
+  ['all','Tudo',null],
+  ['igr','Toda a igreja',['rec','ceia','bat','pasc','ver','carn','cfam','esp','vir','cgm']],
+  ['lid','Liderança',['lup','luv','rmin','nat','cgm']],
+  ['pgs','PGs',['pg','pgc','lup']],
+  ['mul','Mulheres',['mul','pri','smul']],
+  ['hom','Homens',['hom']],
+  ['cas','Casais',['cas','cfam']],
+  ['dee','Deeper',['dee','sdee','camp','cdee']],
+  ['vol','Voluntários e integração',['vol','trv','luv','con']],
+  ['kid','Crianças',['cri','ebf']]
+];
+let group = 'all';
+const audEl = document.getElementById('aud');
+function syncChips(){
+  audEl.querySelectorAll('.seg').forEach(b=>b.setAttribute('aria-pressed', b.dataset.g===group?'true':'false'));
+  Object.keys(CAT).forEach(k=>{ const b=document.getElementById('f-'+k); if(b) b.setAttribute('aria-pressed', on[k]?'true':'false'); });
+}
+GROUPS.forEach(([id,name,cats])=>{
+  const b = document.createElement('button');
+  b.type='button'; b.className='seg'; b.id='g-'+id; b.dataset.g=id; b.textContent=name;
+  b.addEventListener('click',()=>{
+    group=id;
+    Object.keys(on).forEach(k=>{ on[k] = (!cats || cats.includes(k) || k==='fer') ? 1 : 0; });
+    syncChips(); render();
+  });
+  audEl.append(b);
+});
+fEl.addEventListener('click',()=>{ group=null; syncChips(); });
+syncChips();
+
+const navEl = document.getElementById('nav');
+MES.forEach((n,i)=>{
+  const b = document.createElement('button');
+  b.type='button'; b.id='n-'+(i+1); b.textContent=n.slice(0,3); b.setAttribute('aria-label','Ir para '+n);
+  b.addEventListener('click',()=>{
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById('m-'+(i+1)).scrollIntoView({behavior:smooth?'smooth':'auto',block:'start'});
+  });
+  navEl.append(b);
+});
+
+// Destaca na barra o mês que está na tela
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ navEl.querySelectorAll('button').forEach(b=>b.removeAttribute('aria-current')); const b=document.getElementById('n-'+e.target.id.slice(2)); if(b) b.setAttribute('aria-current','true'); } });
+},{rootMargin:'-15% 0px -75% 0px'});
 function render(){
+  io.disconnect();
   mEl.replaceChildren();
   for(let m=1;m<=12;m++){
-    const box = document.createElement('section'); box.className='month';
+    const box = document.createElement('section'); box.className='month'; box.id='m-'+m;
     const sem = m<=6?'1º semestre':'2º semestre';
     box.innerHTML = `<h3>${MES[m-1]}<small>${sem}</small></h3>`;
     const g = document.createElement('div'); g.className='grid';
@@ -378,7 +519,7 @@ function render(){
       const b = document.createElement('button'); b.type='button'; b.className='day';
       const its = (items[k]||[]);
       const sp = its.filter(x=>SPECIAL.includes(x.c) && on[x.c] && x.t!=='Deeper + Deeper Joy' && x.t!=='Sala de Oração Deeper' && x.t!=='Sala de Oração Mulheres');
-      if(on.pg && pgWeek[k]) b.classList.add('pgw');
+      if(on.pg && pgWeek[k]){ b.classList.add('pgw'); if(d===1 || dow(m,d)===0 || !pgWeek[key(m,d-1)]) b.classList.add('pgs'); if(d===dim(m) || dow(m,d)===6 || !pgWeek[key(m,d+1)]) b.classList.add('pge'); }
       if(on.pg && pgOff[k]) b.classList.add('pgoff');
       if(on.dee && deeper[k]) b.classList.add('dee');
       if(on.sdee && pray[k]) b.classList.add('pray');
@@ -395,21 +536,30 @@ function render(){
       const n = document.createElement('span'); n.className='n'; n.textContent=d; b.append(n);
       if(k===sel) b.classList.add('sel');
       b.setAttribute('aria-label', `${d} de ${MES[m-1]}: ${its.filter(x=>on[x.c]).map(x=>x.t).join(', ')||'sem eventos'}`);
-      b.addEventListener('click',()=>{sel=k;render();});
+      b.title = b.getAttribute('aria-label');
+      b.addEventListener('click',()=>{sel=k;sheetOpen=true;render();});
       g.append(b);
     }
     box.append(g);
+    const more = document.createElement('div'); more.className='more'; more.id='more-'+m;
     if(on.rec){
       let f=0,q=0,s=0;
       for(let d=1;d<=dim(m);d++){const w=dow(m,d); if(w===0)f++; if(w===3)q++; if(w===6 && !(m===12 && d===25))s++;}
       const p=document.createElement('p'); p.className='cultos';
       p.innerHTML=`<i></i><span><b>${f}</b> Cultos da Família · <b>${q}</b> ${m===1?'Verão Oceano':'Quartas da Graça'} · <b>${s}</b> Manhãs da Graça</span>`;
-      box.append(p);
+      more.append(p);
     }
     const evs = EV.filter(e=>e[0]===m && on[e[4]]);
     const fm = FER.filter(f=>f[0]===m && on.fer);
-    if(evs.length || fm.length){
+    {
       const ul = document.createElement('ul'); ul.className='list';
+      const pick = (li,d)=>{
+        li.tabIndex=0; li.setAttribute('role','button');
+        if(key(m,d)===sel) li.classList.add('on');
+        const go=()=>{sel=key(m,d);sheetOpen=true;render();};
+        li.addEventListener('click',go);
+        li.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+      };
       const rows = [
         ...evs.map(e=>({d:e[1],dt:e[1]===e[2]?`${e[1]}/${String(m).padStart(2,'0')}`:`${e[1]} a ${e[2]}`,t:e[3],c:e[4],sug:e[6]})),
         ...fm.map(f=>({d:f[1]+.5,dt:`${f[1]}/${String(m).padStart(2,'0')}`,t:f[2],c:'fer'}))
@@ -427,19 +577,47 @@ function render(){
       });
       grouped.forEach(r=>{
         const li=document.createElement('li');
+        pick(li, r.days ? r.days[0] : Math.floor(r.d));
         if(r.days && r.days.length>1){
           const ds = r.days.slice(0,-1).join(', ')+' e '+r.days[r.days.length-1];
           li.className='multi';
-          li.innerHTML=`<span class="nm" style="--c:${CAT[r.c].c}"><i></i><span><span class="dt">${ds}</span> - ${r.t.replace(' - ',', ')}${r.sug?'<span class="tag">sugerida</span>':''}</span></span>`;
+          li.innerHTML=`<span class="nm" style="--c:${CAT[r.c].c}"><i></i><span><span class="dt">${ds}</span> - ${r.c==='fer'?'Feriado: ':''}${r.t.replace(' - ',', ')}${r.sug?'<span class="tag">sugerida</span>':''}</span></span>`;
           ul.append(li); return;
         }
         const chips = (r.cs||[r.c]).map(c=>`<i style="background:${CAT[c].c}"></i>`).join('');
         li.innerHTML=`<span class="dt">${r.dt}</span><span class="nm" style="--c:${CAT[r.c].c}">${chips}<span>${r.c==='fer'?'Feriado: ':''}${r.t}${r.sug?'<span class="tag">sugerida</span>':''}</span></span>`;
         ul.append(li);
       });
-      box.append(ul);
+      // Ritmo do mês: o que se repete toda semana ou quinzena
+      const daysOf = set=>{const r=[];for(let d=1;d<=dim(m);d++) if(set[key(m,d)]) r.push(d);return r;};
+      const fmt = a=>a.length>1 ? a.slice(0,-1).join(', ')+' e '+a[a.length-1] : String(a[0]);
+      const rit = [];
+      if(on.pg){
+        const runs=[]; daysOf(pgWeek).forEach(d=>{const l=runs[runs.length-1]; if(l && l[1]===d-1) l[1]=d; else runs.push([d,d]);});
+        if(runs.length) rit.push({d:runs[0][0],ic:'<i class="sq" style="background:var(--pg)"></i>',ds:fmt(runs.map(r=>r[0]===r[1]?r[0]:r[0]+' a '+r[1])),t:'Semana de PG'});
+      }
+      if(on.dee){ const a=daysOf(deeper); if(a.length) rit.push({d:a[0],ic:'<i class="ring"></i>',ds:fmt(a),t:'Deeper + Deeper Joy'}); }
+      if(on.sdee){ const a=daysOf(pray); if(a.length) rit.push({d:a[0],ic:'<i class="dot" style="background:var(--pray)"></i>',ds:fmt(a),t:'Sala de Oração Deeper, 22h'}); }
+      if(on.smul){ const a=daysOf(mulPray); if(a.length) rit.push({d:a[0],ic:'<i class="dot" style="background:#D500F9"></i>',ds:fmt(a),t:'Sala de Oração Mulheres'}); }
+      if(rit.length){
+        if(ul.children.length){ const sp=document.createElement('li'); sp.className='rit'; sp.innerHTML='<span class="sep">Ritmo do mês</span>'; ul.append(sp); }
+        rit.forEach(r=>{
+          const li=document.createElement('li'); li.className='rit'; pick(li,r.d);
+          li.innerHTML=`<span class="nm">${r.ic}<span><span class="dt">${r.ds}</span> - ${r.t}</span></span>`;
+          ul.append(li);
+        });
+      }
+      if(ul.children.length) more.append(ul);
     }
-    mEl.append(box);
+    if(more.children.length){
+      const nEv = more.querySelectorAll('.list li[role="button"]').length;
+      const tg = document.createElement('button'); tg.type='button'; tg.className='tg'; tg.id='tg-'+m;
+      tg.setAttribute('aria-controls','more-'+m);
+      const paint = ()=>{ const o=openMonths.has(m); more.hidden=!o; tg.setAttribute('aria-expanded',o?'true':'false'); tg.innerHTML = o ? 'Ocultar eventos <i></i>' : `Ver eventos do mês <b>${nEv}</b><i></i>`; };
+      tg.addEventListener('click',()=>{ openMonths.has(m) ? openMonths.delete(m) : openMonths.add(m); paint(); syncAll(); });
+      paint(); box.append(tg, more);
+    }
+    mEl.append(box); io.observe(box);
   }
   showDetail();
 }
@@ -452,7 +630,9 @@ function showDetail(){
   if(pgWeek[sel]) extra.push({t:'Semana de PG',c:'pg',note:'Os PGs se reúnem nesta semana.'});
   if(pgOff[sel]) extra.push({t:'Semana de PG suspensa',c:'pg',note:'Semana Santa.'});
   const list = [...its.filter(x=>!(x.c==='pg')), ...extra.filter(()=>on.pg), ...all.filter(x=>x.c==='rec' && !on.rec)];
-  dEl.innerHTML = `<div class="dow">${DOW[dow(m,d)]}</div><h2>${d} de ${MES[m-1]} de 2027</h2>`;
+  dEl.classList.toggle('open',sheetOpen); wrapEl.classList.toggle('sheet',sheetOpen);
+  dEl.innerHTML = `<button type="button" class="close" id="d-close">Fechar</button><div class="dow">${DOW[dow(m,d)]}</div><h2>${d} de ${MES[m-1]} de 2027</h2>`;
+  document.getElementById('d-close').addEventListener('click',()=>{sheetOpen=false;dEl.classList.remove('open');wrapEl.classList.remove('sheet');});
   if(!list.length){ dEl.innerHTML += `<p class="empty">Nada marcado neste dia.</p>`; return; }
   const ul = document.createElement('ul');
   list.forEach(x=>{
