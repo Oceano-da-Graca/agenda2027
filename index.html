@@ -123,7 +123,7 @@ h1 span{color:var(--lid)}
   <section class="rules" aria-label="Regras do ano">
     <div class="rule"><b>Deeper + Deeper Joy</b><span>Juntos na 1ª e na 3ª sexta, de fevereiro a novembro</span></div>
     <div class="rule"><b>Semana de PG</b><span>Segunda a sábado da 2ª e da 4ª semana. Retorno em 18/jan, férias em dezembro</span></div>
-    <div class="rule"><b>Sala de Oração Deeper</b><span>Terça às 22h, nas semanas de PG</span></div>
+    <div class="rule"><b>Sala de Oração Deeper</b><span>Sexta às 22h, nas semanas de PG</span></div>
   </section>
 
   <div class="stats" id="stats"></div>
@@ -136,12 +136,12 @@ h1 span{color:var(--lid)}
   <section class="key" aria-label="Legenda e filtros">
     <h2>Legenda</h2>
     <p class="key-note">Toque numa cor para esconder ou mostrar aquele tipo de evento.</p>
-    <div="bar" role="group" aria-label="Filtrar categorias" id="filters"></div>
+    <div class="bar" role="group" aria-label="Filtrar categorias" id="filters"></div>
 
-    <div="legend" aria-label="Legenda">
+    <div class="legend" aria-label="Legenda">
     <span><i class="lg" style="background:var(--pg)"></i>Semana de PG</span>
     <span><i class="lg" style="border:2px solid var(--dee);border-radius:50%"></i>Deeper (sexta)</span>
-    <span><i class="lg" style="background:radial-gradient(circle at 50% 75%,var(--pray) 0 3.5px,transparent 4px)"></i>Sala de Oração Deeper (terça)</span>
+    <span><i class="lg" style="background:radial-gradient(circle at 50% 75%,var(--pray) 0 3.5px,transparent 4px)"></i>Sala de Oração Deeper (sexta)</span>
     <span><i class="lg" style="background:radial-gradient(circle at 50% 75%,#D500F9 0 3.5px,transparent 4px)"></i>Sala de Oração Mulheres (2 segundas por mês, alternando com o PG)</span>
     <span><i class="lg" style="background:linear-gradient(225deg,var(--fer) 0 30%,transparent 30%)"></i>Feriado</span>
     <span><i class="lg" style="background:linear-gradient(var(--rec),var(--rec)) 50% 3px/40% 3px no-repeat"></i>Culto da Família (dom, 10h e 18h30), Quarta da Graça (qua, 20h), Manhã da Graça (sáb, 9h)</span>
@@ -214,7 +214,7 @@ const EV = [
   [3,28,28,'Especial de Páscoa','pasc','Apresentação no Culto da Família.'],
   [6,26,27,'Conferência da Família','cfam','Sábado e domingo da última semana de junho. No domingo, os cultos seguem nos horários de sempre (10h e 18h30). O PG desta semana vai de segunda a sexta.'],
   [8,20,21,'Conferência Deeper','cdee','Ocupa o lugar do Deeper da 3ª sexta.',1],
-  [9,24,25,'Conferência Primavera Mulher','pri','Semana de PG: os PGs de mulheres cedem pela regra de prioridade. Evita o domingo de Santa Ceia (19/set).',1],
+  [9,24,25,'Conferência Primavera Mulher','pri','Cai na semana de PG. Evita o domingo de Santa Ceia (19/set).',1],
   [10,12,12,'Dia das Crianças','cri'],
   [11,30,30,'Dia de Comunhão dos PGs','pgc','Último encontro dos PGs no ano. Feriado do Dia do Evangélico.'],
   [12,11,11,'Natal com Líderes','nat','Os PGs já estão de férias em dezembro.',1],
@@ -310,8 +310,8 @@ for(let m=1;m<=11;m++){
     }
     if(m!==1) add(m,fd-4+from,'Semana de PG começa','pg',note);
     if(prayOk){
-      const tue = new Date(mon); tue.setDate(mon.getDate()+1);
-      pray[key(tue.getMonth()+1,tue.getDate())] = 1; add(tue.getMonth()+1,tue.getDate(),'Sala de Oração Deeper','sdee','Terça às 22h');
+      const fri = new Date(mon); fri.setDate(mon.getDate()+4);
+      pray[key(fri.getMonth()+1,fri.getDate())] = 1; add(fri.getMonth()+1,fri.getDate(),'Sala de Oração Deeper','sdee','Sexta às 22h');
     }
   });
 }
